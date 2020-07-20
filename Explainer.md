@@ -136,7 +136,7 @@ store.putAll(entries)
 
 One advantage with this implementation is that there is only 1 overridden function which is consistent with how put() is implemented. This method, however, isn’t as clear as having 2 unique functions (putAllEntries() and putAllValues()) that distinguish between the insertion for in-line and out-of-line keys. With 1 unified putAll() it is possible that users may try to insert both in-line and out-of-line keys which would result in a failure.
 
-### Using separate key and value arrays instead of maps for out-of-line key insertion
+### Using separate key and value arrays instead of maps for _out-of-line key_ insertion
 
 Building on the previous example, 2 separate arrays of values and keys could be used in place of a map:
 
@@ -148,7 +148,7 @@ store.putAll(values, keys)
 
 This also maintains a syntax similar to put() but the drawback is that the keys and values are far apart.
 
-### Nesting Arrays for out-of-line key insertion
+### Nesting Arrays for _out-of-line_ key insertion
 
 putAll could use nested arrays for the insertion of out-of-line keys instead of maps
 
@@ -166,6 +166,42 @@ I considered using JavaScript objects instead of maps but chose not to since the
 
 ## Future Considerations
 
-addAll
+### addAll
 
-deleteAll
+addAll() could correspond to add() as putAll() does to put(). Additionally, addAll() could essentially have the same syntax as putAll(), except it would throw an error on duplicate key insertion like add():
+
+Inserting with _in-line_ keys
+
+```javascript
+let value1 = {title: "Quarry Memories", author: "Fred"}
+let value2 = {title: "Bedrock Nights", author: "Barney"}
+let values = [value1, value2]
+let addall_req = store.addAllValues(values)
+addall_req.onsuccess = () => { // do something }
+addall_req.onerror = () => { // do something }
+```
+
+Inserting with _out-of-line_ keys
+
+```javascript
+let entries = new Map();
+entries.set("key_1", {title: "Quarry Memories", author: "Fred"})
+entries.set("key_2", {title: "Bedrock Nights", author: "Barney"})
+let addall_req = store.addAllEntries(entries)
+addall_req.onsuccess = () => { // do something }
+addall_req.onerror = () => { // do something }
+```
+
+Inserting with duplicate keys
+
+```javascript
+// assuming the primary key is author
+let value1 = {title: "Quarry Memories", author: "Fred"}
+let value2 = {title: "Fred's second book", author: "Fred"}
+let values = [value1, value2]
+let addall_req = store.addAllValues(values)
+addall_req.onsuccess = () => { // won't get called }
+addall_req.onerror = () => { // this will get called since the key is duplicated }
+```
+
+### deleteAll
