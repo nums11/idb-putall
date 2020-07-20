@@ -30,8 +30,9 @@ Here is an example of insertion using _in-line_ keys. The key path is set to the
 
 ```javascript
 const store = db.createObjectStore("books", {keyPath: "author"})
-store.put({title: "Quarry Memories", author: "Fred"})
-store.put({title: "Bedrock Nights", author: "Barney"})
+let put_req = store.put({title: "Quarry Memories", author: "Fred"})
+put_req.onsuccess = () => { // do something }
+put_req.onerror = () => { // do something }
 ```
 
 
@@ -40,8 +41,9 @@ Here is an example of insertion using _out-of-line_ keys. Since no key path is d
 
 ```javascript
 const store = db.createObjectStore("books");
-store.put({title: "Quarry Memories", author: "Fred"}, "key_1")
-store.put({title: "Bedrock Nights", author: "Barney"}, "key_2")
+let put_req = store.put({title: "Quarry Memories", author: "Fred"}, "key_1")
+put_req.onsuccess = () => { // do something }
+put_req.onerror = () => { // do something }
 ```
 
 
@@ -69,7 +71,9 @@ The putAll API endpoints address repeated feedback from customers who have state
 let entries = new Map();
 entries.set("key_1", {title: "Quarry Memories", author: "Fred"})
 entries.set("key_2", {title: "Bedrock Nights", author: "Barney"})
-store.putAllEntries(entries)
+let putall_req = store.putAllEntries(entries)
+putall_req.onsuccess = () => { // do something }
+putall_req.onerror = () => { // do something }
 ```
 
 
@@ -80,7 +84,9 @@ putAllValues(Iterable)
 let value1 = {title: "Quarry Memories", author: "Fred"}
 let value2 = {title: "Bedrock Nights", author: "Barney"}
 let values = [value1, value2]
-store.putAllValues(values)
+let putall_req = store.putAllValues(values)
+putall_req.onsuccess = () => { // do something }
+putall_req.onerror = () => { // do something }
 ```
 
 
