@@ -57,8 +57,8 @@ for(let i = 0; i < 100; i++) {
 
 ## Benefits
 
-- putAll() addresses repeated customer feedback stating the desire to have the ability to bulk-insert large amounts of data into an object store.
-- putAll() also has the potential for performance improvements.
+- putAll addresses repeated customer feedback stating the desire to have the ability to bulk-insert large amounts of data into an object store.
+- putAll also has the potential for performance improvements.
 
 ## Examples
 
@@ -144,7 +144,7 @@ This also maintains a syntax similar to put() but the drawback is that the keys 
 
 ### Nesting Arrays for out-of-line key insertion
 
-putAll() could use nested arrays for the insertion of out-of-line keys instead of maps
+putAll could use nested arrays for the insertion of out-of-line keys instead of maps
 
 ```javascript
 let entries = [
