@@ -29,9 +29,9 @@ Here is an example of insertion using _in-line_ keys. The key path is set to the
 
 
 ```javascript
-const store = db.createObjectStore("books", {keyPath: "author"});
-store.put({title: "Quarry Memories", author: "Fred"});
-store.put({title: "Bedrock Nights", author: "Barney"});
+const store = db.createObjectStore("books", {keyPath: "author"})
+store.put({title: "Quarry Memories", author: "Fred"})
+store.put({title: "Bedrock Nights", author: "Barney"})
 ```
 
 
@@ -40,8 +40,8 @@ Here is an example of insertion using _out-of-line_ keys. Since no key path is d
 
 ```javascript
 const store = db.createObjectStore("books");
-store.put({title: "Quarry Memories", author: "Fred"}, "key_1");
-store.put({title: "Bedrock Nights", author: "Barney"}, "key_2");
+store.put({title: "Quarry Memories", author: "Fred"}, "key_1")
+store.put({title: "Bedrock Nights", author: "Barney"}, "key_2")
 ```
 
 
@@ -50,14 +50,15 @@ Currently, if a developer wants to store large numbers of objects, they must loo
 
 ```javascript
 for(let i = 0; i < 100; i++) {
-  store.put({ field1: 'value1', field2: 'value2', field3: 'value3'});
+  store.put({ field1: 'value1', field2: 'value2', field3: 'value3'})
 }
 ```
 
 
 ## Benefits
 
-“putAll” addresses repeated feedback from customers who have stated the desire to have the ability to bulk-insert large amounts of data into an object store.
+- putAll() addresses repeated customer feedback stating the desire to have the ability to bulk-insert large amounts of data into an object store.
+- putAll() also has the potential for performance improvements.
 
 ## Examples
 
@@ -66,9 +67,9 @@ The putAll API endpoints address repeated feedback from customers who have state
 
 ```javascript
 let entries = new Map();
-entries.set("key_1", {title: "Quarry Memories", author: "Fred"});
-entries.set("key_2", {title: "Bedrock Nights", author: "Barney"});
-store.putAllEntries(entries);
+entries.set("key_1", {title: "Quarry Memories", author: "Fred"})
+entries.set("key_2", {title: "Bedrock Nights", author: "Barney"})
+store.putAllEntries(entries)
 ```
 
 
@@ -76,8 +77,8 @@ putAllValues(Iterable)
 
 
 ```javascript
-let value1 = {title: "Quarry Memories", author: "Fred"};
-let value2 = {title: "Bedrock Nights", author: "Barney"};
+let value1 = {title: "Quarry Memories", author: "Fred"}
+let value2 = {title: "Bedrock Nights", author: "Barney"}
 let values = [value1, value2]
 store.putAllValues(values)
 ```
@@ -102,7 +103,7 @@ One edge case is if the user specifies multiple values with the same key. In thi
 
 ## Alternatives Considered
 
-### Combining putAllEntries and putAllValues into 1 function
+### Combining putAllEntries and putAllValues into 1 overridden function
 
 I considered combining putAllEntries() and putAllValues() into 1 unified putAll() that would be overridden such that it could handle the insertion of in-line keys or the insertion of out-of-line keys but not both at the same time.
 
@@ -128,6 +129,30 @@ store.putAll(entries)
 
 
 One advantage with this implementation is that there is only 1 overridden function which is consistent with how put() is implemented. This method, however, isn’t as clear as having 2 unique functions (putAllEntries() and putAllValues()) that distinguish between the insertion for in-line and out-of-line keys. With 1 unified putAll() it is possible that users may try to insert both in-line and out-of-line keys which would result in a failure.
+
+### Using separate key and value arrays instead of maps for out-of-line key insertion
+
+Building on the previous example, 2 separate arrays of values and keys could be used in place of a map:
+
+```javascript
+let values = [{title: "some_title"}, {title: "some_other_title"}]
+let keys = ["key1", "key2"]
+store.putAll(values, keys)
+```
+
+This also maintains a syntax similar to put() but the drawback is that the keys and values are far apart.
+
+### Nesting Arrays for out-of-line key insertion
+
+putAll() could use nested arrays for the insertion of out-of-line keys instead of maps
+
+```javascript
+let entries = [
+    ["key_1", {title: "title_1"}],
+    ["key_2", {title: "title_2"}]
+]
+store.putAll(entries)
+```
 
 ### Using JavaScript Objects instead of Map
 
