@@ -143,7 +143,7 @@ Building on the previous example, 2 separate arrays of values and keys could be 
 ```javascript
 let values = [{title: "some_title"}, {title: "some_other_title"}]
 let keys = ["key1", "key2"]
-store.putAll(values, keys)
+store.putAllEntries(values, keys)
 ```
 
 This also maintains a syntax similar to put() but the drawback is that the keys and values are far apart.
@@ -157,12 +157,30 @@ let entries = [
     ["key_1", {title: "title_1"}],
     ["key_2", {title: "title_2"}]
 ]
-store.putAll(entries)
+store.putAllEntries(entries)
 ```
 
 ### Using JavaScript Objects instead of Map
 
 I considered using JavaScript objects instead of maps but chose not to since the keys in JavaScript objects can only be strings, whilst the keys in indexedDB are not limited to strings.
+
+### Allowing Insertion of valid records in spite of Failures
+
+Insertion of valid records could be allowed whilst records that fail to be inserted are discarded. With this implementation, the whole batch wouldn't fail just because one record was invalid:
+
+```javascript
+const store = db.createObjectStore("books", {keyPath: "title"})
+store.putAllValues(
+  {title: "some_title"}, // this record would get inserted
+  {field: "some_field"}, // this record would not get inserted since it does not have the key
+);
+```
+
+Though this could be beneficial for very large insertions where a few failures are permissible, this isn't consistent with other parts of the API. For example, 1 unhandled error in a transaction causes the entire transaction to fail. Additionally it's unclear whether or not the failure of one record would trigger an onsuccess or onerror event. 
+
+### Using a non-event based asynchronous design
+
+The asynchronous event-based system of IndexedDB is certainly outdated in comparison to newer non-event based systems like promises. "Practically speaking, Indexed DB is predominantly used indirectly by users who instead select libraries, many of which wrap the usage in promises. It's important to make sure that additions to the API surface can be integrated into libraries - i.e. by following the same transaction model" - _Joshua Bell_.
 
 ## Future Considerations
 
