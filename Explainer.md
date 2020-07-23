@@ -180,7 +180,8 @@ Though this could be beneficial for very large insertions where a few failures a
 
 ### Using a non-event based asynchronous design
 
-The asynchronous event-based system of IndexedDB is certainly outdated in comparison to newer non-event based systems like promises. "Practically speaking, Indexed DB is predominantly used indirectly by users who instead select libraries, many of which wrap the usage in promises. It's important to make sure that additions to the API surface can be integrated into libraries - i.e. by following the same transaction model" - _Joshua Bell_.
+The asynchronous event-based system of IndexedDB is certainly outdated in comparison to newer non-event based systems like promises. 
+> Practically speaking, Indexed DB is predominantly used indirectly by users who instead select libraries, many of which wrap the usage in promises. It's important to make sure that additions to the API surface can be integrated into libraries - i.e. by following the same transaction model. - _Joshua Bell_.
 
 ## Future Considerations
 
