@@ -6,7 +6,11 @@
 
 **Participate**
 
-Original discussion here: [https://github.com/w3c/IndexedDB/issues/69](https://github.com/w3c/IndexedDB/issues/69). Please post issues/suggestions in this repository's issue tracker.
+Original discussion here: [https://github.com/w3c/IndexedDB/issues/69](https://github.com/w3c/IndexedDB/issues/69).
+
+Tag Review: [https://github.com/w3ctag/design-reviews/issues/536](https://github.com/w3ctag/design-reviews/issues/536).
+
+Please post issues/suggestions in this repository's issue tracker.
 
 **What is this?**
 
@@ -183,6 +187,8 @@ Though this could be beneficial for very large insertions where a few failures a
 The asynchronous event-based system of IndexedDB is certainly outdated in comparison to newer non-event based systems like promises. 
 > Practically speaking, Indexed DB is predominantly used indirectly by users who instead select libraries, many of which wrap the usage in promises. It's important to make sure that additions to the API surface can be integrated into libraries - i.e. by following the same transaction model. - _Joshua Bell_.
 
+https://github.com/w3ctag/design-reviews/issues/536#issuecomment-661436475
+
 ## Future Considerations
 
 ### addAll
@@ -224,3 +230,18 @@ addall_req.onerror = () => { // this will get called since the key is duplicated
 ```
 
 ### deleteAll
+
+## References & Acknowledgments
+
+References:
+
+- [w3c/IndexedDB](https://w3c.github.io/IndexedDB/) - IndexedDB spec
+
+Acknowledgements:
+
+Thanks to the following people who helped me create this explainer
+- Daniel Murphy <dmurph@chromium.org>
+- Joshua Bell <jsbell@chromium.org>
+- Victor Costan <pwnall@chromium.org>
+- Marijn Kruisselbrink <mek@chromium.org>
+- Olivier Yiptong <oyiptong@chromium.org>
