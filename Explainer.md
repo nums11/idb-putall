@@ -70,6 +70,7 @@ for(let i = 0; i < 100; i++) {
 
 The putAll API endpoints address repeated feedback from customers who have stated the desire to have the ability to bulk-insert large amounts of data into an object store.
 
+putAllEntries(sequence<sequence<Values>>)
 
 ```javascript
 let entries = new Map();
